@@ -9,8 +9,17 @@ from crosslinked import utils
 from crosslinked.logger import *
 from crosslinked.search import CrossLinked
 
-
 def banner():
+    print('''
+          #####                              #                                     #######                                                 
+        #     # #####   ####   ####   ####  #       # #    # #    # ###### #####  #       #    # ##### ###### #    # #####  ###### #####  
+        #       #    # #    # #      #      #       # ##   # #   #  #      #    # #        #  #    #   #      ##   # #    # #      #    # 
+        #       #    # #    #  ####   ####  #       # # #  # ####   #####  #    # #####     ##     #   #####  # #  # #    # #####  #    # 
+        #       #####  #    #      #      # #       # #  # # #  #   #      #    # #         ##     #   #      #  # # #    # #      #    # 
+        #     # #   #  #    # #    # #    # #       # #   ## #   #  #      #    # #        #  #    #   #      #   ## #    # #      #    # 
+        #####  #    #  ####   ####   ####  ####### # #    # #    # ###### #####  ####### #    #   #   ###### #    # #####  ###### #####                                                                                                                               
+        ''')
+def bannerCrossLinked():
 
     VERSION = 'v0.3.0'
 
@@ -110,8 +119,8 @@ def nformatter(nformat, name):
 
 def main():
     banner()
+    bannerCrossLinked()
     args = cli()
-
     try:
         if args.debug: setup_debug_logger(); debug_args(args)                                  # Setup Debug logging
         txt = setup_file_logger(args.outfile+".txt", log_name="cLinked_txt", file_mode='w')    # names.txt overwritten
