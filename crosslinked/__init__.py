@@ -85,7 +85,8 @@ def start_parse(args):
 def format_names(args, data, logger):
     tmp = []
     Log.info('{} names collected'.format(len(data)))
-    df = pd.DataFrame(columns=['Name', 'Position', 'Email', 'LinkedInProfile']) 
+    
+    dfs = []
 
     for d in data:
         name = d['name']
@@ -98,9 +99,12 @@ def format_names(args, data, logger):
 
         email = nformatter(args.nformat, d['name'])
         if email not in tmp:
-            df = df.append({'Name': name, 'Position': title, 'Email': email, 'LinkedInProfile': profile}, ignore_index=True)
+            df_row = pd.DataFrame({'Name': [name], 'Position': [title], 'Email': [email], 'LinkedInProfile': [profile]})
+            dfs.append(df_row)
             logger.info(email)
             tmp.append(email)
+
+    df = pd.concat(dfs, ignore_index=True)
 
     df.to_excel('social.xlsx', index=False)
     Log.success("{} unique names added to {}!".format(len(tmp), args.outfile+".txt"))
