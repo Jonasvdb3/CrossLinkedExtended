@@ -2,6 +2,7 @@
 # Author: @m8sec
 # License: GPLv3
 import re
+import pandas as pd
 import argparse
 from sys import exit
 from csv import reader
@@ -84,12 +85,24 @@ def start_parse(args):
 def format_names(args, data, logger):
     tmp = []
     Log.info('{} names collected'.format(len(data)))
+    df = pd.DataFrame(columns=['Email', 'Name', 'Title']) 
 
     for d in data:
-        name = nformatter(args.nformat, d['name'])
-        if name not in tmp:
-            logger.info(name)
-            tmp.append(name)
+        name = d['name']
+
+        title = d['title']
+        if "linkedin.com" in title:
+            title = title.replace("linkedin.com", "").strip()
+
+        profile = d['url']
+
+        email = nformatter(args.nformat, d['name'])
+        if email not in tmp:
+            df = df.append({'Name': name, 'Position': title, 'Email': email, 'LinkedInProfile': profile}, ignore_index=True)
+            logger.info(email)
+            tmp.append(email)
+
+    df.to_excel('social.xlsx', index=False)
     Log.success("{} unique names added to {}!".format(len(tmp), args.outfile+".txt"))
 
 
