@@ -85,7 +85,7 @@ def start_parse(args):
 def format_names(args, data, logger):
     tmp = []
     Log.info('{} names collected'.format(len(data)))
-    df = pd.DataFrame(columns=['Email', 'Name', 'Title']) 
+    df = pd.DataFrame(columns=['Name', 'Position', 'Email', 'LinkedInProfile']) 
 
     for d in data:
         name = d['name']
