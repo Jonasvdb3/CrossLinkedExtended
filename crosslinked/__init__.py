@@ -9,6 +9,7 @@ from csv import reader
 from crosslinked import utils
 from crosslinked.logger import *
 from crosslinked.search import CrossLinked
+from validate_email_address import validate_email
 
 def banner():
     print('''
@@ -98,7 +99,7 @@ def format_names(args, data, logger):
         profile = d['url']
 
         email = nformatter(args.nformat, d['name'])
-        if email not in tmp:
+        if email not in tmp and validate_email(email):
             df_row = pd.DataFrame({'Name': [name], 'Position': [title], 'Email': [email], 'LinkedInProfile': [profile]})
             dfs.append(df_row)
             logger.info(email)
@@ -108,7 +109,6 @@ def format_names(args, data, logger):
 
     df.to_excel('social.xlsx', index=False)
     Log.success("{} unique names added to {}!".format(len(tmp), args.outfile+".txt"))
-
 
 def nformatter(nformat, name):
     # Get position of name values in text
